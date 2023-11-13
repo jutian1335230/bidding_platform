@@ -1,76 +1,51 @@
 package FinalProject;
 
-import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.net.UnknownHostException;
+import java.util.Scanner;
 
-class Client {
+public class Client {
+	int port = 8000;
+	String host = "localhost";
+	DataInputStream in;
+	DataOutputStream out;
+	Socket socket;
 
-  private static String host = "127.0.0.1";
-  private BufferedReader fromServer;
-  private PrintWriter toServer;
-  private Scanner consoleInput = new Scanner(System.in);
-
-  public static void main(String[] args) {
-    try {
-      new Client().setUpNetworking();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  private void setUpNetworking() throws Exception {
-    @SuppressWarnings("resource")
-    Socket socket = new Socket(host, 4242);
-    System.out.println("Connecting to... " + socket);
-    fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    toServer = new PrintWriter(socket.getOutputStream());
-
-    Thread readerThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        String input;
-        try {
-          while ((input = fromServer.readLine()) != null) {
-            System.out.println("From server: " + input);
-            processRequest(input);
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-
-    Thread writerThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        while (true) {
-          String input = consoleInput.nextLine();
-          String[] variables = input.split(",");
-          Message request = new Message(variables[0], variables[1], Integer.valueOf(variables[2]));
-          GsonBuilder builder = new GsonBuilder();
-          Gson gson = builder.create();
-          sendToServer(gson.toJson(request));
-        }
-      }
-    });
-
-    readerThread.start();
-    writerThread.start();
-  }
-
-  protected void processRequest(String input) {
-    return;
-  }
-
-  protected void sendToServer(String string) {
-    System.out.println("Sending to server: " + string);
-    toServer.println(string);
-    toServer.flush();
-  }
-
+	
+	public void runme () {
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			// Define client socket, and initialize in and out streams.
+			socket = new Socket(host, port);
+			in = new DataInputStream(socket.getInputStream());
+			out = new DataOutputStream(socket.getOutputStream());
+			
+			Double msg = 1.0;
+			while (true) {
+				try {
+					// ask user to enter a double
+					System.out.print("Enter a number to bid: ");
+					msg = scanner.nextDouble();
+				} catch (Exception e) {
+					scanner.next();
+					System.out.println("Try again.");
+					continue;
+				}
+				
+				// send the bid to the server
+				out.writeDouble(msg);
+				out.flush();
+				
+				// read the server's response, and print it out.
+				System.out.println("Client: The server says your bid is: " + in.readDouble());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		scanner.close();
+	}
 }
