@@ -1,4 +1,4 @@
-package FinalProject;
+package finalProject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,7 +38,7 @@ class ClientHandler implements Runnable, Observer {
     try {
       while ((input = fromClient.readLine()) != null) {
         System.out.println("From client: " + input);
-        server.processRequest(input);
+        //server.processRequest(input);
       }
     } catch (IOException e) {
       e.printStackTrace();

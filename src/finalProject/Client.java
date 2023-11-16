@@ -1,4 +1,4 @@
-package FinalProject;
+package finalProject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -24,24 +24,26 @@ public class Client {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 			
-			Double msg = 1.0;
+			double msg = 0;
+			String description = null;
 			while (true) {
 				try {
-					// ask user to enter a double
+					System.out.print("Enter an object to bid: ");
+					description = scanner.next();
 					System.out.print("Enter a number to bid: ");
 					msg = scanner.nextDouble();
-				} catch (Exception e) {
+				} 
+				catch (Exception e) {
 					scanner.next();
 					System.out.println("Try again.");
 					continue;
 				}
-				
 				// send the bid to the server
+				out.writeUTF(description);
+				out.flush();
 				out.writeDouble(msg);
 				out.flush();
-				
-				// read the server's response, and print it out.
-				System.out.println("Client: The server says your bid is: " + in.readDouble());
+				System.out.println(in.readUTF());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

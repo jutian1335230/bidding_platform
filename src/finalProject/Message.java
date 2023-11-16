@@ -1,4 +1,4 @@
-package FinalProject;
+package finalProject;
 
 class Message {
   String type;
