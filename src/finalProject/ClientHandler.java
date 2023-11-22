@@ -6,16 +6,21 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Observer;
+
+import com.google.gson.Gson;
+
 import java.util.Observable;
 
+@SuppressWarnings("deprecation")
 class ClientHandler implements Runnable, Observer {
 
 	private Server server;
 	private Socket clientSocket;
 	private BufferedReader fromClient;
 	private PrintWriter toClient;
-
+	private Gson gson;
 	protected ClientHandler(Server server, Socket clientSocket) {
+		gson = new Gson();
 		this.server = server;
 		this.clientSocket = clientSocket;
 		try {
@@ -39,11 +44,11 @@ class ClientHandler implements Runnable, Observer {
 		try {
 			while ((input = fromClient.readLine()) != null) {
 				System.out.println("From client: " + input);
-				server.processRequest(input);
+				toClient.println(gson.toJson(server.processRequest(input)));
+				toClient.flush();
 			}
 		} 
 		catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
