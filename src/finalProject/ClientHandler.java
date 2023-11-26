@@ -10,7 +10,7 @@ import java.util.Observer;
 import com.google.gson.Gson;
 
 import java.util.Observable;
-
+import ClientPackage.Message;
 @SuppressWarnings("deprecation")
 class ClientHandler implements Runnable, Observer {
 
@@ -32,28 +32,26 @@ class ClientHandler implements Runnable, Observer {
 		}
 	}
 
-	protected void sendToClient(String string) {
-		System.out.println("Sending to client: " + string);
-		toClient.println(string);
-		toClient.flush();
-	}
 
 	@Override
 	public void run() {
 		String input;
 		try {
 			while ((input = fromClient.readLine()) != null) {
-				System.out.println("From client: " + input);
 				toClient.println(gson.toJson(server.processRequest(input)));
 				toClient.flush();
 			}
 		} 
-		catch (IOException e) {
+		catch (IOException e) { 
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		sendToClient((String) arg);
+		Message message = (Message) arg;
+		message.isUpdateThread = true;
+		toClient.println(gson.toJson(message));
+		toClient.flush();
+		message.isUpdateThread = false;
 	}
 }
