@@ -1,3 +1,12 @@
+/*
+* EE422C Final Project submission by
+* Replace <...> with your actual data.
+* <Tony Tian>
+* <jt47232>
+* <17610>
+* Spring 2023
+*/
+
 package finalProject;
 
 import java.io.BufferedReader;
@@ -10,7 +19,6 @@ import java.util.Observer;
 import com.google.gson.Gson;
 
 import java.util.Observable;
-import ClientPackage.Message;
 @SuppressWarnings("deprecation")
 class ClientHandler implements Runnable, Observer {
 
@@ -43,6 +51,7 @@ class ClientHandler implements Runnable, Observer {
 			}
 		} 
 		catch (IOException e) { 
+			e.printStackTrace();
 		}
 	}
 
