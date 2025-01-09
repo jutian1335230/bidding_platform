@@ -6,5 +6,5 @@ To start the server, simply double-click the server.jar file or run the followin
 
 ***Supports multi-player
 
-```bash
+```cmd
 java -jar server.jar
