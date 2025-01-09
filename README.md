@@ -4,3 +4,5 @@ To access the user interface, download JRE, javafx-sdk and in CLI: java --module
 
 To start the server, simply double-click the server.jar file or in CLI: java -jar server.jar
 
+***Supports multi-player
+
