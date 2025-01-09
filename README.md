@@ -1,4 +1,4 @@
-This is a bidding platform that supports multi-player.
+This is a bidding platform that supports multi-player!
 
 To access the user interface, download JRE, javafx-sdk, and clone the repository. Then, run the following command in the CLI: 
 ```
