@@ -660,13 +660,13 @@ public class Client extends Application{
 	}
 	private void setUpStage(String fileName) {
 		primaryStage.close();
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("./resources/" + fileName));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fileName));
 		loader.setController(this);
 		try {
 			primaryStage.setScene(new Scene(loader.load()));
 		} catch (IOException e) {}
 		if (fileName.equals("Home.fxml")) {
-			HomeBackground.setImage(new Image(getClass().getResource("./resources/Home.png").toExternalForm()));
+			HomeBackground.setImage(new Image(getClass().getResource("/Home.png").toExternalForm()));
 			prizeViewing = false;
 			if (username.equals("GUEST")) {
 		    	addItemLink.setVisible(false);
@@ -682,23 +682,23 @@ public class Client extends Application{
 	    	}
 		}
 		if (backToHomeBtn != null) {
-			backToHomeBtn.setImage(new Image(getClass().getResource("./resources/backBtn.png").toExternalForm()));
+			backToHomeBtn.setImage(new Image(getClass().getResource("/backBtn.png").toExternalForm()));
 		}
 		if (backBtn != null) {
-			backBtn.setImage(new Image(getClass().getResource("./resources/backBtn.png").toExternalForm()));
+			backBtn.setImage(new Image(getClass().getResource("/backBtn.png").toExternalForm()));
 		}
 		if (searchImage != null) {
-			searchImage.setImage(new Image(getClass().getResource("./resources/searchIcon.png").toExternalForm()));
+			searchImage.setImage(new Image(getClass().getResource("/searchIcon.png").toExternalForm()));
 		}
 		primaryStage.show();
 	}
 	private void showError(String prompt) {
-		new MediaPlayer(new Media(getClass().getResource("./resources/Error.mp3").toExternalForm())).play();
+		new MediaPlayer(new Media(getClass().getResource("/Error.mp3").toExternalForm())).play();
 		Alert alert = new Alert(AlertType.ERROR, prompt, ButtonType.OK);
 		alert.showAndWait();
 	}
 	private void showConfirmation(String prompt) {
-		new MediaPlayer(new Media(getClass().getResource("./resources/notificationSound.mp3").toExternalForm())).play();
+		new MediaPlayer(new Media(getClass().getResource("/notificationSound.mp3").toExternalForm())).play();
 		Alert alert = new Alert(AlertType.CONFIRMATION, prompt, ButtonType.OK);
 		alert.showAndWait();
 	}
